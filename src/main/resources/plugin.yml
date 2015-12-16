@@ -1,0 +1,5 @@
+name: InstantBreak
+description: Instantly break certain blocks
+version: ${version}
+author: Byteflux
+main: net.minelink.instantbreak.InstantBreak
