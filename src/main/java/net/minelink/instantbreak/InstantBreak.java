@@ -17,17 +17,16 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class InstantBreak extends JavaPlugin implements Listener {
-    private static InstantBreak instance;
-    public static InstantBreak getInstance() {
-        return InstantBreak.instance;
-    }
-    public final Set<Material> materials = new HashSet<>();
+    public static InstantBreak plugin; // Create listener variable
+    public final static Set<Material> materials = new HashSet<>();
 
     @Override
     public void onEnable() {
+        plugin = this; // Assign listener plugin to this class
         saveDefaultConfig();
 
         for (String mat : getConfig().getStringList("materials")) {
@@ -42,7 +41,7 @@ public final class InstantBreak extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(this, this);
         if (Bukkit.getPluginManager().isPluginEnabled("AAC")) {
             getLogger().info("Attempting to hook into AAC...");
-            AACHook.hook(this);
+            new AACHook((Plugin)this);
         }
     }
 
