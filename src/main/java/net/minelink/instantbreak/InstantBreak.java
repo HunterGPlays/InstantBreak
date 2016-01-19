@@ -1,5 +1,10 @@
 package net.minelink.instantbreak;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import net.minelink.instantbreak.hooks.AACHook;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
@@ -14,11 +19,12 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public final class InstantBreak extends JavaPlugin implements Listener {
-    private final Set<Material> materials = new HashSet<>();
+    private static InstantBreak instance;
+    public static InstantBreak getInstance() {
+        return InstantBreak.instance;
+    }
+    public final Set<Material> materials = new HashSet<>();
 
     @Override
     public void onEnable() {
@@ -29,11 +35,15 @@ public final class InstantBreak extends JavaPlugin implements Listener {
             try {
                 materials.add(Material.valueOf(mat));
             } catch (IllegalArgumentException e) {
-                getLogger().warning("Unknown material: " + mat);
+                getLogger().severe("Unknown material: " + mat);
             }
         }
 
         Bukkit.getPluginManager().registerEvents(this, this);
+        if (Bukkit.getPluginManager().isPluginEnabled("AAC")) {
+            getLogger().info("Attempting to hook into AAC...");
+            AACHook.hook(this);
+        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -53,7 +63,7 @@ public final class InstantBreak extends JavaPlugin implements Listener {
             BlockBreakEvent blockBreakEvent = new BlockBreakEvent(block, player);
             Bukkit.getPluginManager().callEvent(blockBreakEvent);
             if (!blockBreakEvent.isCancelled()) {
-                block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getTypeId(), 16);
+                block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType(), 16);
                 block.breakNaturally();
             }
         }
