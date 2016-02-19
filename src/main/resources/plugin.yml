@@ -1,6 +1,6 @@
 name: InstantBreak
 description: Instantly break certain blocks
 version: ${version}
-author: Byteflux
+authors: [Byteflux, Terrobility]
 softdepend: [AAC]
 main: net.minelink.instantbreak.InstantBreak

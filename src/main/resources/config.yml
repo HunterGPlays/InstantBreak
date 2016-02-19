@@ -1,2 +1,9 @@
 materials:
 - SPONGE
+blocked-worlds: []
+only-allow-instantbreak-with:
+    enabled: false
+    items:
+    - DIAMOND_PICKAXE
+    - WOOL
+    - DIRT
