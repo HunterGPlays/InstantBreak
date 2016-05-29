@@ -17,6 +17,7 @@ public class AACHook implements Listener {
 
     public AACHook(final Plugin plugin) {
         Bukkit.getPluginManager().registerEvents(this, plugin);
+        plugin.getLogger().info("Hooked into AAC.");
     }
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)

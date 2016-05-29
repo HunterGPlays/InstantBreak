@@ -41,34 +41,11 @@ public class InstantBreak extends JavaPlugin implements Listener {
         saveDefaultConfig();
         reloadConfig();
 
-        // Broken config check.
-        if (!getConfig().isSet("configversion")) {
-            getLogger().severe("The config.yml file is broken!");
-            getLogger().severe("The plugin failed to detect a 'configversion'.");
-            getLogger().severe(
-                    "The plugin will not load until you generate a new, working config OR if you fix the config.");
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
-
-        // Outdated config check.
-        final int configVersion = 3;
-        if (getConfig().getInt("configversion") != configVersion) {
-            getLogger().severe("Your config is outdated!");
-            getLogger()
-                    .severe("The plugin will not load unless you change the config version to " + configVersion + ".");
-            getLogger().severe(
-                    "This means that you will need to reset your config, as there may have been major changes to the plugin.");
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        } else {
-            getLogger().info("The config was not detected as outdated.");
-        }
-
         // Get the Minecraft server version.
         serverVersion = getMCVersion();
         getLogger().info("Running server version " + serverVersion);
 
+        // Get instant break materials from config.
         for (String mat : getConfig().getStringList("materials")) {
             mat = mat.toUpperCase().replaceAll("[^A-Z0-9_]", "_");
             try {
