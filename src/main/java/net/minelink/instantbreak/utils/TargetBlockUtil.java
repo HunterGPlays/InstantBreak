@@ -7,11 +7,11 @@ import org.bukkit.util.BlockIterator;
 
 public class TargetBlockUtil {
 
-    public static final Block getTargetBlock(final Player player, final int range) {
-        final BlockIterator iter = new BlockIterator(player, range);
-        Block lastBlock = iter.next();
-        while (iter.hasNext()) {
-            lastBlock = iter.next();
+    public static Block getTargetBlock(final Player player, final int range) {
+        final BlockIterator iterator = new BlockIterator(player, range);
+        Block lastBlock = iterator.next();
+        while (iterator.hasNext()) {
+            lastBlock = iterator.next();
             if (lastBlock.getType() == Material.AIR) {
                 continue;
             }

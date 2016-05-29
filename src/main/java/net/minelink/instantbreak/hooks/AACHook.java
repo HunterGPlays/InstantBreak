@@ -20,13 +20,15 @@ public class AACHook implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-    public void cancelAACFastbreak(final PlayerViolationEvent event) {
+    public void cancelAACFastBreak(final PlayerViolationEvent event) {
         final Player player = event.getPlayer();
-        final HackType hacktype = event.getHackType();
-        if (hacktype != HackType.FASTBREAK)
+        // Check if the hack type is fast break.
+        final HackType hackType = event.getHackType();
+        if (hackType != HackType.FASTBREAK)
             return;
 
-        for (final Material mat : InstantBreak.materials) {
+        // Check if the material is on the instant break list.
+        for (final Material mat : InstantBreak.getInstance().materials) {
             if (TargetBlockUtil.getTargetBlock(player, 5).getType() == mat) {
                 event.setCancelled(true);
             }
